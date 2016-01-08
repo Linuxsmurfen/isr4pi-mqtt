@@ -20,15 +20,15 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <wiringPi.h>         //GPIO libs
-#include <mosquitto.h>				//MQTT libs
-#include <syslog.h>   				//Only used for debugging in deamon mode
+#include <mosquitto.h>        //MQTT libs
+#include <syslog.h>           //Only used for debugging in deamon mode
 
 // Variables to set
-char mqttserver[20] = "localhost";		    //MQTT server to connect to
-int mqttport = 1883;				              //MQTT port to connect to
-char mqtttopic[20] = "/node/mypi2/gpio7";	//MQTT topic to post the value to
-int interval = 10;				                //The output interval
-volatile int eventCounter = 0;			      //The interrupt counter
+char mqttserver[20] = "localhost";        //MQTT server to connect to
+int mqttport = 1883;                      //MQTT port to connect to
+char mqtttopic[20] = "/node/mypi2/gpio7"; //MQTT topic to post the value to
+int interval = 10;                        //The output interval
+volatile int eventCounter = 0;            //The interrupt counter
 char payload[10];                         //The value that will be submitted to mqtt
 //debug;
 //syslog
@@ -81,12 +81,12 @@ int main(void) {
   
   // Endless loop that checks the interrupt counter each X second and pusblish it to mqtt
   while ( 1 ) {
-    //printf( "%d\n", eventCounter );								                                //for debug to stdout
-    //syslog (LOG_NOTICE, "Mqtt: %d", eventCounter);						                    //for debug to syslog
-    sprintf(payload, "%d", eventCounter);							                              //convert the counter value
-    eventCounter = 0;										                                            //reset the interrupt counter
+    //printf( "%d\n", eventCounter );                                               //for debug to stdout
+    //syslog (LOG_NOTICE, "Mqtt: %d", eventCounter);                                //for debug to syslog
+    sprintf(payload, "%d", eventCounter);                                           //convert the counter value
+    eventCounter = 0;                                                               //reset the interrupt counter
     mosquitto_publish(mosq, NULL, mqtttopic, strlen(payload), payload, 1, false);   //post the value to mqtt
-    sleep(interval);   										                                          //sleep for X seconds 
+    sleep(interval);                                                                //sleep for X seconds 
   }
 
   // close mqtt
