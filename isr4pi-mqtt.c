@@ -83,7 +83,7 @@ int main(void) {
   while ( 1 ) {
     //printf( "%d\n", eventCounter );                                               //for debug to stdout
     //syslog (LOG_NOTICE, "Mqtt: %d", eventCounter);                                //for debug to syslog
-    sprintf(payload, "%d", eventCounter);                                           //convert the counter value
+    sprintf(payload, "%f", (float) eventCounter/interval);                          //convert the counter value
     eventCounter = 0;                                                               //reset the interrupt counter
     mosquitto_publish(mosq, NULL, mqtttopic, strlen(payload), payload, 1, false);   //post the value to mqtt
     sleep(interval);                                                                //sleep for X seconds 
