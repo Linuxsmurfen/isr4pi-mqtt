@@ -55,6 +55,7 @@ int main(void) {
   }
 
   // set pin 7 to generate an interrupt on high-to-low transitions and attach myInterrupt() to the interrupt
+  pullUpDnControl (BUTTON_PIN, PUD_UP);
   if ( wiringPiISR (BUTTON_PIN, INT_EDGE_FALLING, &myInterrupt) < 0 ) {
       fprintf (stderr, "Unable to setup ISR: %s\n", strerror (errno));
       return 1;
